@@ -1,0 +1,13 @@
+
+> nextjs-shadcn-template@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1097ms
+○ Compiling / ...
+ GET / 200 in 6.5s (compile: 5.8s, render: 636ms)
+ GET /api/steam?steamId=mock 200 in 397ms (compile: 342ms, render: 56ms)
