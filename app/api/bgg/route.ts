@@ -78,13 +78,19 @@ export async function GET(request: NextRequest) {
   for (let i = 0; i <= maxRetries; i++) {
     try {
       // Add User-Agent header as BGG API might require it
+      const headers: Record<string, string> = {
+        'User-Agent': 'BGG-Steam-Finder/1.0',
+        'Accept': 'application/xml',
+      };
+
+      if (process.env.BGG_BEARER_TOKEN) {
+        headers['Authorization'] = `Bearer ${process.env.BGG_BEARER_TOKEN}`;
+      }
+
       const response = await fetch(
         `https://boardgamegeek.com/xmlapi2/collection?username=${username}&own=1&stats=1`,
         {
-             headers: {
-                 'User-Agent': 'BGG-Steam-Finder/1.0',
-                 'Accept': 'application/xml'
-             }
+          headers,
         }
       );
 
