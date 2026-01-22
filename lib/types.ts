@@ -8,4 +8,5 @@ export interface UnifiedGame {
   playtimeHours?: number; // For Steam (e.g. 12.5) representing hours
   source: 'bgg' | 'steam';
   tags?: string[];
+  rating?: number;
 }

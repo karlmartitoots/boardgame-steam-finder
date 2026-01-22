@@ -184,7 +184,7 @@ export default function Home() {
                     )}
                 </div>
 
-                {isSteam && game.tags && game.tags.length > 0 && (
+                {game.tags && game.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-1">
                         {game.tags.slice(0, 3).map(tag => (
                             <Badge key={tag} variant="secondary" className="text-[10px] h-4 px-1 font-normal">

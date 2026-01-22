@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { XMLParser } from 'fast-xml-parser';
+import { enrichGames } from '@/lib/services/bggEnricher';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -60,6 +61,7 @@ export async function GET(request: NextRequest) {
       const items = data.items.item;
        const games = items.map((item: any) => {
         const stats = item.stats || {};
+        const rating = stats.rating?.average?.value ? parseFloat(stats.rating.average.value) : undefined;
         return {
           id: item.objectid,
           name: item.name ? (item.name['#text'] || item.name) : 'Unknown',
@@ -67,9 +69,12 @@ export async function GET(request: NextRequest) {
           minPlayers: stats.minplayers,
           maxPlayers: stats.maxplayers,
           playingTime: stats.playingtime,
+          source: 'bgg',
+          rating
         };
       });
-      return NextResponse.json({ games });
+      const enrichedGames = await enrichGames(games);
+      return NextResponse.json({ games: enrichedGames });
   }
 
   const maxRetries = 6;
@@ -143,6 +148,7 @@ export async function GET(request: NextRequest) {
 
       const games = items.map((item: any) => {
         const stats = item.stats || {};
+        const rating = stats.rating?.average?.value ? parseFloat(stats.rating.average.value) : undefined;
 
         return {
           id: item.objectid,
@@ -151,10 +157,13 @@ export async function GET(request: NextRequest) {
           minPlayers: stats.minplayers,
           maxPlayers: stats.maxplayers,
           playingTime: stats.playingtime,
+          source: 'bgg',
+          rating
         };
       });
 
-      return NextResponse.json({ games });
+      const enrichedGames = await enrichGames(games);
+      return NextResponse.json({ games: enrichedGames });
 
     } catch (error) {
       console.error('Error fetching BGG collection:', error);

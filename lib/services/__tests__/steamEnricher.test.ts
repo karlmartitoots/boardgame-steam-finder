@@ -29,7 +29,7 @@ describe('steamEnricher', () => {
   it('should enrich top games with tags from cache', async () => {
     // Adapter returns tags for Game 2
     (gameMetadataAdapter.getTags as jest.Mock).mockResolvedValue({
-      '2': ['Action', 'RPG'],
+      'steam:2': ['Action', 'RPG'],
     });
 
     // Mock fetch to succeed with empty result for others to avoid crash
@@ -60,7 +60,7 @@ describe('steamEnricher', () => {
 
      expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('appids=2'));
      expect(gameMetadataAdapter.saveTags).toHaveBeenCalledWith({
-         '2': ['Strategy']
+         'steam:2': ['Strategy']
      });
      expect(result[0].tags).toEqual(['Strategy']);
   });
